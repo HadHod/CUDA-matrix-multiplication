@@ -1,13 +1,11 @@
-ARGS = 20000
-
 all:
 	nvcc -std=c++11 main.cu --compiler-options -Wall -Xcompiler -fopenmp -lgomp -lrt -o main
 
 run:
-	./main $(ARGS)
+	./main
 
 debug:
-	gdb --args ./main $(ARGS)
+	gdb --args ./main
 
 clear:
 	rm main

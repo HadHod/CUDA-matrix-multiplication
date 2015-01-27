@@ -7,6 +7,20 @@
 using namespace std;
 using namespace std::chrono;
 
+void printMatrix(const float* matrix, const int rows, const int columns) {
+
+    for (int i=0; i<rows * columns; i++) {
+
+        // cout << "new line: " << (i % columns == 0) << "\n";
+        if (i % columns == 0) {
+            cout << "\n";
+        }
+        cout << matrix[i] << " ";
+    }
+
+    cout << "\n";
+}
+
 float* initRandomMatrix(const int rows, const int columns) {
     srand(high_resolution_clock::now().time_since_epoch().count());
 
@@ -14,7 +28,7 @@ float* initRandomMatrix(const int rows, const int columns) {
     float* matrix = (float*) malloc(numberOfElements * sizeof(float));
 
     for (int i=0; i<numberOfElements; i++) {
-        matrix[i] = rand();
+        matrix[i] = static_cast<int>( rand() ) % 10; // TODO back to floats in future
     }
 
     return matrix;
@@ -35,6 +49,12 @@ int main(int argc, char* argv[]) {
     float* matrixA = initRandomMatrix(rowsA, colsA);
     float* matrixB = initRandomMatrix(rowsB, colsB);
     float* matrixC = (float*) malloc(rowsC * colsC * sizeof(float));
+
+    cout << "A:";
+    printMatrix(matrixA, rowsA, colsC);
+
+    cout << "\nB:";
+    printMatrix(matrixB, rowsB, colsB);
 
     float* dev_matrixA;
     float* dev_matrixB;
@@ -58,6 +78,9 @@ int main(int argc, char* argv[]) {
     cudaDeviceSynchronize();
 
     cudaMemcpy(matrixC, dev_matrixC, rowsC * colsC * sizeof(float), cudaMemcpyDeviceToHost);
+
+    cout << "\nC:";
+    printMatrix(matrixC, rowsC, colsC);
 
     cudaFree(dev_matrixA);
     cudaFree(dev_matrixB);
