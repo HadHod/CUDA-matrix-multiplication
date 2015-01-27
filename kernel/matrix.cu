@@ -1,10 +1,12 @@
 // C = A * B
 
-__global__
-void matrixMultiplication(float* C, float* A, float* B, int rowsC, int colsC, int rowsA, int colsA, int rowsB, int colsB, int TILE_SIZE) {
+const int TILE_SIZE = 16;
 
-    __shared__ float ds_A[TILE_SIZE][TILE_SIZE];
-    __shared__ float ds_B[TILE_SIZE][TILE_SIZE];
+__global__
+void matrixMultiplication(float* C, float* A, float* B, int rowsC, int colsC, int rowsA, int colsA, int rowsB, int colsB) {
+
+    __device__ __shared__ float ds_A[TILE_SIZE][TILE_SIZE];
+    __device__ __shared__ float ds_B[TILE_SIZE][TILE_SIZE];
 
     int bx = blockIdx.x;
     int by = blockIdx.y;

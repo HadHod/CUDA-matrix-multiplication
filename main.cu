@@ -4,9 +4,9 @@
 
 using namespace std;
 
-const int TILE_SIZE = 16;
-
 int main(int argc, char* argv[]) {
+
+    const int TILE_SIZE = 16;
 
     int rowsA = 12;
     int colsA = 12;
@@ -35,9 +35,8 @@ int main(int argc, char* argv[]) {
 
     matrixMultiplication<<<gridSize, blockSize>>>(
         dev_matrixC, dev_matrixA, dev_matrixB,
-        rowsC, colsC, rowsA, colsA, rowsB, colsB,
-        TILE_SIZE
-    )
+        rowsC, colsC, rowsA, colsA, rowsB, colsB
+    );
 
     cudaDeviceSynchronize();
 
