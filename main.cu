@@ -1,22 +1,39 @@
 #include <iostream>
+#include <ctime>
+#include <chrono>
 
 #include "kernel/matrix.cu"
 
 using namespace std;
+using namespace std::chrono;
+
+float* initRandomMatrix(const int rows, const int columns) {
+    srand(high_resolution_clock::now().time_since_epoch().count());
+
+    const int numberOfElements = rows * columns;
+    float* matrix = (float*) malloc(numberOfElements * sizeof(float));
+
+    for (int i=0; i<numberOfElements; i++) {
+        matrix[i] = rand();
+    }
+
+    return matrix;
+}
 
 int main(int argc, char* argv[]) {
 
     const int TILE_SIZE = 16;
+    const int size = 4;
 
-    int rowsA = 12;
-    int colsA = 12;
-    int rowsB = 12;
-    int colsB = 12;
+    int rowsA = size;
+    int colsA = size;
+    int rowsB = size;
+    int colsB = size;
     int rowsC = rowsA;
     int colsC = colsB;
 
-    float* matrixA;
-    float* matrixB;
+    float* matrixA = initRandomMatrix(rowsA, colsA);
+    float* matrixB = initRandomMatrix(rowsB, colsB);
     float* matrixC = (float*) malloc(rowsC * colsC * sizeof(float));
 
     float* dev_matrixA;
