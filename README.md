@@ -1,9 +1,9 @@
-# CUDA-matrix-multiplication
+# CUDA matrix multiplication
 
 ## Description
+Tiled matrix multiplication on nVidia graphic cards.
 
 ## TODO
 * Add dynamicly allocating shared memory
-* Add description
 * Upgrade makefile
 * Add error handeling
