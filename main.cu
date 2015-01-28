@@ -33,15 +33,19 @@ float* initRandomMatrix(const int rows, const int columns) {
 
 int main(int argc, char* argv[]) {
 
-    const int TILE_SIZE = 16;
-    const int size = 4;
+    if (argc != 1 && argc != 5) {
+        cout << "You have to pass none or 4 arguments. Passed: " << argc << " argument(s)\n";
+        return EXIT_FAILURE;
+    }
 
-    int rowsA = size;
-    int colsA = size;
-    int rowsB = size;
-    int colsB = size;
-    int rowsC = rowsA;
-    int colsC = colsB;
+    const int TILE_SIZE = 16;
+
+    const int rowsA = (argc == 5) ? atoi(argv[1]) : 4;
+    const int colsA = (argc == 5) ? atoi(argv[2]) : 4;
+    const int rowsB = (argc == 5) ? atoi(argv[3]) : 4;
+    const int colsB = (argc == 5) ? atoi(argv[4]) : 4;
+    const int rowsC = rowsA;
+    const int colsC = colsB;
 
     float* matrixA = initRandomMatrix(rowsA, colsA);
     float* matrixB = initRandomMatrix(rowsB, colsB);
