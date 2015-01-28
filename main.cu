@@ -5,13 +5,10 @@
 #include "kernel/matrix.cu"
 
 using namespace std;
-using namespace std::chrono;
 
 void printMatrix(const float* matrix, const int rows, const int columns) {
 
     for (int i=0; i<rows * columns; i++) {
-
-        // cout << "new line: " << (i % columns == 0) << "\n";
         if (i % columns == 0) {
             cout << "\n";
         }
@@ -22,7 +19,7 @@ void printMatrix(const float* matrix, const int rows, const int columns) {
 }
 
 float* initRandomMatrix(const int rows, const int columns) {
-    srand(high_resolution_clock::now().time_since_epoch().count());
+    srand(chrono::high_resolution_clock::now().time_since_epoch().count());
 
     const int numberOfElements = rows * columns;
     float* matrix = (float*) malloc(numberOfElements * sizeof(float));
@@ -50,10 +47,7 @@ int main(int argc, char* argv[]) {
     float* matrixB = initRandomMatrix(rowsB, colsB);
     float* matrixC = (float*) malloc(rowsC * colsC * sizeof(float));
 
-    cout << "A:";
     printMatrix(matrixA, rowsA, colsC);
-
-    cout << "\nB:";
     printMatrix(matrixB, rowsB, colsB);
 
     float* dev_matrixA;
@@ -67,6 +61,12 @@ int main(int argc, char* argv[]) {
     cudaMemcpy(dev_matrixA, matrixA, rowsA * colsA * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(dev_matrixB, matrixB, rowsB * colsB * sizeof(float), cudaMemcpyHostToDevice);
 
+    cudaEvent_t start, stop;
+    float elapsedTime;
+
+    cudaEventCreate(&start);
+    cudaEventRecord(start, 0);
+
     dim3 gridSize((colsC-1) / TILE_SIZE + 1, (rowsC-1) / TILE_SIZE + 1, 1);
     dim3 blockSize(TILE_SIZE, TILE_SIZE, 1);
 
@@ -77,10 +77,18 @@ int main(int argc, char* argv[]) {
 
     cudaDeviceSynchronize();
 
+    cudaEventCreate(&stop);
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize(stop);
+
+    cudaEventElapsedTime(&elapsedTime, start, stop);
+
     cudaMemcpy(matrixC, dev_matrixC, rowsC * colsC * sizeof(float), cudaMemcpyDeviceToHost);
 
-    cout << "\nC:";
+    cout << "\nResult:";
     printMatrix(matrixC, rowsC, colsC);
+
+    cout << "Elapsed time: " << elapsedTime << " ms\n";
 
     cudaFree(dev_matrixA);
     cudaFree(dev_matrixB);
