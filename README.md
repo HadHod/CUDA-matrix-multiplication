@@ -7,3 +7,4 @@ Tiled matrix multiplication on nVidia graphic cards.
 * Add dynamicly allocating shared memory
 * Upgrade makefile
 * Add error handeling
+* Move utils to separate files
