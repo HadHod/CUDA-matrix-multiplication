@@ -8,14 +8,11 @@ void matrixMultiplication(float* C, float* A, float* B, int rowsC, int colsC, in
     __device__ __shared__ float ds_A[TILE_SIZE][TILE_SIZE];
     __device__ __shared__ float ds_B[TILE_SIZE][TILE_SIZE];
 
-    int bx = blockIdx.x;
-    int by = blockIdx.y;
+    const int tx = threadIdx.x;
+    const int ty = threadIdx.y;
 
-    int tx = threadIdx.x;
-    int ty = threadIdx.y;
-
-    int row = by * blockDim.y + ty;
-    int col = bx * blockDim.x + tx;
+    const int row = blockIdx.y * blockDim.y + ty;
+    const int col = blockIdx.x * blockDim.x + tx;
 
     float cValue = 0.0;
 
