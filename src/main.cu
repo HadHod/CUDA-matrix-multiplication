@@ -2,7 +2,7 @@
 #include <ctime>
 #include <chrono>
 
-#include "kernel/matrix.cu"
+#include "kernel/matrix.cuh"
 
 using namespace std;
 
