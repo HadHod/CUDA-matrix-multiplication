@@ -8,16 +8,17 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
     if (argc != 1 && argc != 5) {
-        cout << "You have to pass none or 4 arguments. Passed: " << argc << " argument(s)\n";
+        cout << "You have to pass none or 4 arguments. Passed: " << argc << " argument(s).\n";
         return EXIT_FAILURE;
     }
 
     const int TILE_SIZE = 16;
+    const int DEFAULT_MATRIX_SIZE = 4;
 
-    const int rowsA = (argc == 5) ? atoi(argv[1]) : 4;
-    const int colsA = (argc == 5) ? atoi(argv[2]) : 4;
-    const int rowsB = (argc == 5) ? atoi(argv[3]) : 4;
-    const int colsB = (argc == 5) ? atoi(argv[4]) : 4;
+    const int rowsA = (argc == 5) ? atoi(argv[1]) : DEFAULT_MATRIX_SIZE;
+    const int colsA = (argc == 5) ? atoi(argv[2]) : DEFAULT_MATRIX_SIZE;
+    const int rowsB = (argc == 5) ? atoi(argv[3]) : DEFAULT_MATRIX_SIZE;
+    const int colsB = (argc == 5) ? atoi(argv[4]) : DEFAULT_MATRIX_SIZE;
     const int rowsC = rowsA;
     const int colsC = colsB;
 
