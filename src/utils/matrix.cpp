@@ -3,6 +3,7 @@
 #include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 void printMatrix(const float* matrix, const int rows, const int columns) {
 
@@ -17,7 +18,7 @@ void printMatrix(const float* matrix, const int rows, const int columns) {
 }
 
 float* initRandomMatrix(const int rows, const int columns) {
-    srand(chrono::high_resolution_clock::now().time_since_epoch().count());
+    srand(high_resolution_clock::now().time_since_epoch().count());
 
     const int numberOfElements = rows * columns;
     float* matrix = (float*) malloc(numberOfElements * sizeof(float));
